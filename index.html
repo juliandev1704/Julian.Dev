@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Julian.dev17 · Páginas web para negocios</title>
+<meta name="description" content="Diseño y programo landing pages y páginas web para negocios. Landing desde $50 USD, página web desde $100 USD.">
+<meta name="theme-color" content="#0c0c0e">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0e; --surface:#19191c; --ink:#f1f1ef; --muted:#bdb8b2;
+  --accent:#d61f2a; --accent-ink:#ffffff; --paper:#f1f1ef; --paper-ink:#121214; --paper-soft:#e2e2df;
+  --cream:#f6d6c1; --accent-lit:#ff4f57;
+  --m:32px;
+  --fs-xl:clamp(64px,12.5vw,210px);
+  --fs-l:clamp(42px,5vw,84px);
+  --fs-m:clamp(22px,2vw,30px);
+  --fs-b:18px;
+  --fs-s:15px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --win-r:28px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Archivo",system-ui,sans-serif;font-size:var(--fs-b);line-height:1.5;font-variation-settings:"wdth" 100;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:850;letter-spacing:-.035em;line-height:.95;font-variation-settings:"wdth" 108}
+p{margin:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+::selection{background:var(--accent);color:#fff}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* buttons: square, one fill */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:56px;padding:0 28px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:750;font-size:17px;text-decoration:none;border:0;cursor:pointer;transition:transform .18s var(--ease),background-color .18s}
+.btn:hover{background:#b8161f}
+.btn:active{transform:scale(.97)}
+.btn--paper{background:var(--paper);color:var(--paper-ink)}
+.btn--paper:hover{background:#fff}
+.btn--ink{background:var(--paper-ink);color:var(--paper)}
+.btn--ink:hover{background:#000}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;height:68px;padding:0 var(--m);background:var(--bg);transition:transform .3s var(--ease)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;font-size:19px;letter-spacing:-.01em;font-variation-settings:"wdth" 120}
+.brand .mk{width:40px;height:40px}
+.brand b{color:var(--accent-lit);font-weight:900}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;align-items:center}
+.nav ul a{text-decoration:none;font-size:var(--fs-s);font-weight:600;position:relative}
+.nav ul a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .25s var(--ease)}
+.nav ul a:not(.btn):hover::after{transform:scaleX(1)}
+.nav .btn{min-height:44px;padding:0 18px;font-size:var(--fs-s)}
+.menu-word{display:none;background:none;border:0;color:var(--ink);font:inherit;font-weight:700;font-size:var(--fs-s);cursor:pointer;padding:8px 0}
+
+/* ---------- HERO: window that opens to the edges ---------- */
+.hero{position:relative;height:165svh}
+.hero__stage{position:sticky;top:0;height:100svh;overflow:hidden}
+.hero__pic{position:absolute;inset:0;z-index:2}
+.hero__pic img{width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.hero__monkey{position:absolute;z-index:1;width:200px;left:0;top:0;transform-origin:30% 60%;cursor:pointer}
+.hero__text{position:absolute;z-index:3;inset:0;pointer-events:none}
+.hero__text > *{pointer-events:auto}
+.hero h1{position:absolute;left:var(--m);bottom:var(--wb,120px);font-size:clamp(44px,4.4vw,70px);max-width:9ch}
+.hero__side{position:absolute;right:var(--m);bottom:var(--wb,120px);width:min(27ch,24vw);display:grid;gap:24px}
+.hero__side p{font-size:var(--fs-b)}
+.hero__cap{position:absolute;z-index:3;left:var(--m);bottom:40px;max-width:36ch;font-size:var(--fs-m);font-weight:700;line-height:1.15;letter-spacing:-.01em;opacity:0;padding:18px 20px 18px 0}
+.hero__cap::before{content:"";position:absolute;inset:-40px -60px -40px calc(-1 * var(--m));background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,0));z-index:-1} /* taste-skill-ignore: neutral scrim over photo */
+/* static fallback (no JS / reduced motion) */
+/* static hero: phones, reduced motion, no script. Headline, the window with the monkey peeking over it, then the offer */
+html:not(.hero-live) .hero{height:auto;padding:104px var(--m) 88px}
+html:not(.hero-live) .hero__stage{position:relative;height:auto;overflow:visible;display:grid;grid-template-columns:minmax(0,1fr);max-width:1100px;margin:0 auto}
+html:not(.hero-live) .hero__text{display:contents}
+html:not(.hero-live) .hero h1{position:static;order:1;max-width:none;font-size:clamp(40px,8vw,84px)}
+html:not(.hero-live) .hero__monkey{--mw:clamp(110px,22vw,170px);position:relative;order:2;width:var(--mw);justify-self:end;margin:20px 8% calc(var(--mw) * -.42) 0;transform:none}
+html:not(.hero-live) .hero__pic{position:relative;order:3;inset:auto;aspect-ratio:4/3;max-height:62svh;width:100%;border-radius:var(--win-r);overflow:hidden}
+html:not(.hero-live) .hero__cap{position:static;order:6;opacity:1;visibility:visible;transform:none;font-size:var(--fs-s);font-weight:500;line-height:1.5;padding:12px 0 0;max-width:none;color:var(--muted)}
+html:not(.hero-live) .hero__cap::before{display:none}
+html:not(.hero-live) .hero__side{position:static;order:4;width:auto;max-width:46ch;margin-top:24px}
+
+/* ---------- PROCESO: one verb at a time ---------- */
+.verbs{position:relative}
+.verb{position:relative;height:clamp(460px,78svh,820px);overflow:hidden;background:#111}
+.verb > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.5) saturate(.9);transform:scale(1.08);transition:transform 1.6s var(--ease)}
+.verb.in > img{transform:scale(1)}
+.verb__track{position:absolute;inset:0;display:grid;place-items:center;padding:0 var(--m) 18%}
+.verb h2{text-align:center;font-size:var(--fs-xl);font-weight:900;letter-spacing:-.05em;line-height:1;font-variation-settings:"wdth" 92;color:var(--ink)}
+.verb h2 span{display:inline-block}
+.verb p{position:absolute;left:var(--m);right:var(--m);bottom:40px;max-width:40ch;font-size:var(--fs-b);padding:20px 24px 20px 0}
+.verb p::before{content:"";position:absolute;inset:-50px -80px -40px calc(-1 * var(--m));background:radial-gradient(closest-side,rgba(0,0,0,.6),rgba(0,0,0,0));z-index:-1} /* taste-skill-ignore: neutral scrim over photo */
+.verb p strong{display:block;font-size:var(--fs-m);line-height:1.1;margin-bottom:8px;letter-spacing:-.01em}
+.verb:nth-child(even) h2{color:var(--accent-lit)}
+
+/* ---------- EJEMPLO: one frame, three distances ---------- */
+.show{--fw:min(30vw,calc((100svh - 300px) * .8));--fh:calc(var(--fw) * 1.25);position:relative;height:250vh;background:var(--paper);color:var(--paper-ink)}
+.show__stage{position:sticky;top:0;height:100svh;display:grid;place-items:center;overflow:hidden}
+.show h2{position:absolute;inset:0;text-align:center;font-size:clamp(36px,min(7vw,9svh),116px);pointer-events:none;z-index:2}
+.show h2 .a{position:absolute;left:0;right:0;bottom:calc(50% + var(--fh) / 2 + 16px)}
+.show h2 .b{position:absolute;left:0;right:0;top:calc(50% + var(--fh) / 2 + 12px);color:var(--accent);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.show[data-stage="0"] h2 .b{opacity:0;transform:translateY(24px)}
+.frame{position:relative;width:var(--fw);aspect-ratio:4/5;overflow:hidden;background:#fff;border-radius:var(--win-r);container-type:inline-size;z-index:1}
+.frame__inner{position:absolute;inset:0;transition:transform .8s var(--ease);transform-origin:50% 50%}
+.show[data-stage="1"] .frame__inner{transform:scale(1.7);transform-origin:0% 46%}
+.show[data-stage="2"] .frame__inner{transform:scale(2.05);transform-origin:100% 80%}
+.show__cap{position:absolute;left:calc(50% + var(--fw) / 2 + 48px);top:calc(50% - var(--fh) / 2);width:min(30ch,calc(50vw - var(--fw) / 2 - 48px - var(--m)));font-size:var(--fs-b);opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.show__cap strong{display:block;font-size:var(--fs-m);line-height:1.1;margin-bottom:10px;letter-spacing:-.01em}
+.show__steps{position:absolute;right:calc(50% + var(--fw) / 2 + 48px);top:calc(50% - var(--fh) / 2);width:min(24ch,calc(50vw - var(--fw) / 2 - 48px - var(--m)));display:grid;gap:6px;justify-items:end;z-index:3}
+.show__steps button{font:inherit;font-size:var(--fs-s);color:inherit;background:none;border:0;padding:8px 0;text-align:right;cursor:pointer;opacity:.72;transition:opacity .25s,transform .25s var(--ease)}
+.show__steps button:hover{opacity:1;transform:translateX(-4px)}
+.show[data-stage="0"] .show__steps button:nth-child(1),.show[data-stage="1"] .show__steps button:nth-child(2),.show[data-stage="2"] .show__steps button:nth-child(3){opacity:1;font-weight:700}
+.show[data-stage="2"] .show__cap{opacity:1;transform:none}
+html:not(.js) .show{height:auto;padding:160px 0}
+html:not(.js) .show__stage{position:relative;height:auto;gap:40px}
+html:not(.js) .show h2,html:not(.js) .show h2 span{position:static}
+html:not(.js) .show__cap{position:static;opacity:1;transform:none}
+
+/* the sample landing (a real interface fragment) */
+.ui{position:absolute;inset:0;font-size:3.4cqw;line-height:1.35;color:#1c1712;background:#fbf7f2;font-variation-settings:"wdth" 100;display:flex;flex-direction:column}
+.ui__bar{display:flex;justify-content:space-between;align-items:center;padding:4cqw 5cqw;font-weight:800}
+.ui__bar span:last-child{font-weight:500;opacity:.7;font-size:3cqw}
+.ui__hero{position:relative;height:46cqw;margin:0 5cqw;overflow:hidden;border-radius:3cqw}
+.ui__hero img{width:100%;height:100%;object-fit:cover;filter:brightness(.62)}
+.ui__hero div{position:absolute;left:4cqw;bottom:4cqw;color:#fff;font-weight:850;font-size:6.2cqw;line-height:1;letter-spacing:-.03em;max-width:70%}
+.ui__cta{display:flex;gap:2.5cqw;padding:4cqw 5cqw}
+.ui__cta span{display:inline-flex;align-items:center;gap:1.6cqw;padding:2.6cqw 4cqw;border-radius:99px;font-weight:750;font-size:3.2cqw}
+.ui__cta span:first-child{background:#177a41;color:#fff}
+.ui__cta span:last-child{background:#ece4da}
+.ui__cta svg{width:3.6cqw;height:3.6cqw}
+.ui__row{display:grid;grid-template-columns:1fr 1fr;gap:3cqw;padding:0 5cqw;flex:1}
+.ui__box{background:#fff;border-radius:3cqw;padding:3.4cqw}
+.ui__box b{display:block;font-size:3.6cqw;margin-bottom:1.4cqw}
+.ui__box p{font-size:3cqw}
+.ui__price{display:flex;justify-content:space-between;font-size:3cqw;padding:.8cqw 0}
+.ui__map{background:#e8dfd3;border-radius:2cqw;height:13cqw;margin-top:1.6cqw;position:relative;overflow:hidden}
+.ui__map i{position:absolute;background:#fff}
+.ui__foot{padding:3.6cqw 5cqw;font-size:2.8cqw;opacity:.7}
+
+/* ---------- PROYECTOS: one lit screen, the list beside it ---------- */
+.work{padding:180px var(--m) 200px;background:var(--bg)}
+.work__head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-bottom:72px;align-items:end}
+.work__head h2{grid-column:1/8;font-size:var(--fs-l)}
+.work__head p{grid-column:8/13;max-width:40ch}
+.work__grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.work__view{grid-column:1/8;position:sticky;top:110px}
+.work__screen{position:relative;aspect-ratio:1440/1000;overflow:hidden;border-radius:var(--win-r);background:var(--surface)}
+.shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transform:scale(1.04);transition:opacity .45s var(--ease),transform .7s var(--ease)}
+.shot.on{opacity:1;transform:none}
+.shot--type{display:flex;flex-direction:column;justify-content:flex-end;padding:40px;background:#123a5c;color:#fff}
+.shot--type b{font-size:clamp(40px,5vw,84px);letter-spacing:-.04em;line-height:.95}
+.work__view .mk{position:absolute;width:120px;right:-30px;top:-74px;transform:rotate(10deg)}
+.work__view > p{margin-top:18px;font-size:var(--fs-s);min-height:1.5em}
+.work__list{grid-column:9/13;display:grid;gap:56px}
+.work__list h3{font-size:var(--fs-m);letter-spacing:-.01em;margin-bottom:14px;color:var(--accent-lit)}
+.work__list ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.proj{display:block;text-decoration:none;padding:12px 0;transition:transform .25s var(--ease),opacity .25s}
+.proj b{display:block;font-size:clamp(28px,2.6vw,44px);font-weight:850;letter-spacing:-.035em;line-height:1;font-variation-settings:"wdth" 104}
+.proj span{display:block;font-size:var(--fs-s);color:var(--muted);margin-top:6px}
+.work__list ul:hover .proj{opacity:.5}
+.work__list .proj:hover,.work__list .proj:focus-visible,.proj.on{opacity:1;transform:translateX(10px)}
+.proj img{display:none}
+
+/* ---------- PRECIOS: the ticket ---------- */
+.prices{background:var(--accent);color:var(--accent-ink);padding:180px var(--m) 140px}
+.prices__head{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap;width:min(64vw,1100px);margin:0 auto 72px}
+.prices__head h2{font-size:var(--fs-l)}
+.prices__head p{max-width:34ch;margin-top:20px}
+.cur{display:flex;background:rgba(0,0,0,.18);padding:4px}
+.cur input{position:absolute;opacity:0;pointer-events:none}
+.cur label{padding:12px 18px;font-weight:750;font-size:var(--fs-s);cursor:pointer;transition:background-color .2s,color .2s}
+.cur input:checked + label{background:var(--paper);color:var(--paper-ink)}
+.cur input:focus-visible + label{outline:3px solid var(--paper);outline-offset:2px}
+.tickets{display:grid;gap:56px;justify-items:center}
+.ticket{--g:var(--accent);position:relative;width:min(64vw,1100px);min-height:calc(min(64vw,1100px) / 2.3);display:grid;grid-template-columns:7fr 3fr;background:var(--paper);color:var(--paper-ink);transition:transform .35s var(--ease)}
+.ticket:hover{transform:rotate(-.6deg) translateY(-4px)}
+.ticket:nth-child(2):hover{transform:rotate(.6deg) translateY(-4px)}
+.ticket::before,.ticket::after{content:"";position:absolute;left:70%;width:28px;height:28px;border-radius:50%;background:var(--g);transform:translateX(-50%)}
+.ticket::before{top:-14px}
+.ticket::after{bottom:-14px}
+.ticket__perf{position:absolute;left:70%;top:24px;bottom:24px;width:6px;transform:translateX(-50%);background:radial-gradient(circle,var(--g) 3px,transparent 3.5px) 0 0/6px 16px repeat-y} /* taste-skill-ignore: ticket perforation dots */
+.ticket__main{padding:40px;display:flex;flex-direction:column;justify-content:space-between;gap:32px}
+.ticket h3{font-size:clamp(34px,4vw,64px);letter-spacing:-.04em}
+.ticket__lede{font-size:var(--fs-b);margin-top:14px;max-width:44ch}
+.ticket ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 32px;font-size:17px}
+.ticket li{padding-left:22px;position:relative}
+.ticket li::before{content:"";position:absolute;left:0;top:.5em;width:10px;height:10px;background:var(--accent)}
+.ticket__stub{padding:32px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
+.price{font-size:clamp(40px,5.2vw,86px);font-weight:900;letter-spacing:-.05em;line-height:.9;font-variant-numeric:tabular-nums;font-variation-settings:"wdth" 88;white-space:nowrap}
+.price--cop{font-size:clamp(28px,3vw,50px)}
+.price small{display:block;font-size:var(--fs-s);font-weight:600;letter-spacing:0;margin-top:10px;font-variation-settings:"wdth" 100}
+.ticket__stub .btn{width:100%;margin-top:14px}
+.ticket--custom .ticket__main{gap:22px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;background:var(--paper-soft);font-size:var(--fs-s);font-weight:650;cursor:pointer;user-select:none;transition:background-color .18s,color .18s,transform .15s var(--ease)}
+.chips label:active{transform:scale(.95)}
+.chips label::before{content:"+";font-weight:900;width:.7em;text-align:center}
+.chips input:checked + label{background:var(--paper-ink);color:var(--paper)}
+.chips input:checked + label::before{content:"−"}
+.chips input:focus-visible + label{outline:3px solid var(--accent);outline-offset:2px}
+.picked{font-size:var(--fs-s);min-height:1.5em}
+.ticket__stub .mk{width:92px;height:92px}
+
+/* ---------- PREGUNTAS: a band per question ---------- */
+.faq__head{background:var(--accent);min-height:30svh;display:flex;align-items:flex-end;padding:56px var(--m)}
+.faq__head h2{font-size:clamp(56px,7vw,120px)}
+.qa{display:grid;grid-template-columns:repeat(12,1fr);gap:0 24px;padding:56px var(--m)}
+.qa:nth-child(odd){background:var(--surface)}
+.qa h3{grid-column:1/6;font-size:var(--fs-m);line-height:1.15;letter-spacing:-.015em;font-weight:800}
+.qa p{grid-column:7/13;max-width:56ch}
+
+/* ---------- CONTACTO ---------- */
+.cta{position:relative;height:90svh;min-height:620px;overflow:hidden}
+.cta > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:20% 50%;filter:brightness(.55)}
+.cta__text{position:absolute;left:calc(50% + 24px);right:var(--m);bottom:12svh;display:grid;gap:22px;justify-items:start}
+.cta h2{font-size:clamp(36px,3.8vw,64px);max-width:14ch}
+.cta p{max-width:44ch}
+.mail{min-height:84px;padding:0 34px;font-size:clamp(17px,1.6vw,24px);word-break:break-all}
+.mail svg{width:26px;height:26px;flex:none}
+.ig{font-weight:700;text-underline-offset:5px}
+
+/* ---------- FOOTER: big monkey half, menu half ---------- */
+.foot{display:grid;grid-template-columns:1fr 1fr;min-height:100svh;background:var(--surface)}
+.foot__monkey{position:relative;overflow:hidden;background:var(--bg)}
+.foot__monkey .mk{position:absolute;width:150%;left:-28%;bottom:-38%}
+.foot__menu{padding:80px var(--m) 32px 8%;display:flex;flex-direction:column}
+.foot__brand{font-size:var(--fs-s)}
+.foot nav ul{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:16px}
+.foot nav a{font-size:clamp(30px,2.6vw,46px);font-weight:850;text-decoration:none;letter-spacing:-.03em;display:inline-block;transition:transform .25s var(--ease),opacity .25s}
+.foot nav ul:hover a{opacity:.45}
+.foot nav ul a:hover,.foot nav ul a:focus-visible{opacity:1;transform:translateX(12px)}
+.foot__info{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:64px;font-size:var(--fs-s)}
+.foot__info b{display:block;margin-bottom:6px}
+.foot__legal{margin-top:auto;padding-top:48px;font-size:13px;color:var(--muted);display:grid;gap:10px}
+.foot__legal a{color:var(--ink)}
+
+/* ---------- monkey parts ---------- */
+.mk{display:block;overflow:visible}
+.mk .pupils{transition:transform .12s linear}
+.mk .lids{transform-origin:50% 100px;transform:scaleY(0);transition:transform .09s}
+.mk.blink .lids{transform:scaleY(1)}
+.mk .glint{opacity:0}
+.mk.wink .glint{animation:glint .7s var(--ease)}
+@keyframes glint{0%{opacity:0;transform:translateX(-30px)}40%{opacity:1}100%{opacity:0;transform:translateX(30px)}}
+.mk .mouth{transition:d .3s var(--ease)}
+
+/* ---------- entrances ---------- */
+.js .rv{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i,0) * 80ms)}
+.js .rv.in{opacity:1;transform:none}
+
+/* ---------- tablet & phone ---------- */
+@media (max-width:1024px){
+  .ticket,.prices__head{width:min(86vw,1100px)}
+  .ticket{min-height:calc(86vw / 2.3)}
+  .show{--fw:min(42vw,calc((100svh - 330px) * .8))}
+  .show__steps{display:none}
+  .show__cap{left:calc(50% + var(--fw) / 2 + 28px);width:calc(50vw - var(--fw) / 2 - 28px - var(--m));font-size:16px}
+}
+@media (max-width:767px){
+  :root{--m:20px}
+  .nav{height:60px}
+  .nav ul{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:20px;padding:24px var(--m) 32px;background:var(--bg)}
+  .nav.open ul{display:flex}
+  .nav ul a{font-size:22px}
+  .menu-word{display:block}
+  html:not(.hero-live) .hero{padding:88px var(--m) 64px}
+  html:not(.hero-live) .hero h1{font-size:11.5vw}
+  html:not(.hero-live) .hero__pic{aspect-ratio:4/3;max-height:40svh}
+  .hero__side{gap:16px}
+  .hero__side p{font-size:16px}
+  .hero__side .btn{width:100%}
+  .verb{height:clamp(420px,72svh,640px)}
+  .verb h2{font-size:clamp(52px,17vw,110px)}
+  .verb p{font-size:16px;right:var(--m);bottom:24px}
+  .show{--fw:min(72vw,calc((100svh - 290px) * .8));height:230vh}
+  .show h2{font-size:clamp(34px,11vw,52px)}
+  .show__cap{left:var(--m);right:var(--m);top:auto;bottom:max(20px,calc(50% - var(--fh) / 2 - 150px));width:auto;text-align:center;font-size:15px}
+  .show__cap strong{font-size:18px;margin:0}
+  .show__cap span{display:none}
+  .work{padding:120px var(--m) 140px}
+  .work__head,.work__grid{grid-template-columns:1fr}
+  .work__head h2,.work__head p,.work__list{grid-column:1}
+  .work__view{display:none}
+  .work__list{gap:48px}
+  .proj img{display:block;width:100%;height:auto;aspect-ratio:1440/1000;object-fit:cover;object-position:top;border-radius:16px;margin-top:14px}
+  .proj .noimg{display:flex;align-items:flex-end;aspect-ratio:1440/1000;background:#123a5c;color:#fff;border-radius:16px;margin-top:14px;padding:20px;font-size:24px;font-weight:850}
+  .prices{padding:120px var(--m) 140px}
+  .prices__head,.ticket{width:100%}
+  .ticket{grid-template-columns:1fr;min-height:0}
+  .ticket::before,.ticket::after{left:auto;top:auto;bottom:auto;transform:translateY(-50%)}
+  .ticket::before{left:-14px;top:var(--cut,70%)}
+  .ticket::after{right:-14px;top:var(--cut,70%)}
+  .ticket__perf{left:24px;right:24px;top:var(--cut,70%);bottom:auto;width:auto;height:6px;transform:translateY(-50%);background:radial-gradient(circle,var(--g) 3px,transparent 3.5px) 0 0/16px 6px repeat-x} /* taste-skill-ignore: ticket perforation dots */
+  .ticket__main{padding:28px 24px 56px}
+  .ticket h3{font-size:9vw}
+  .ticket ul{grid-template-columns:1fr;font-size:16px}
+  .ticket__stub{padding:64px 24px 28px}
+  .price{font-size:16vw}
+  .price--cop{font-size:11vw}
+  .faq__head{min-height:30svh;padding:32px var(--m)}
+  .faq__head h2{font-size:13vw}
+  .qa{grid-template-columns:1fr;padding:32px var(--m);gap:14px}
+  .qa h3,.qa p{grid-column:1}
+  .qa h3{font-size:22px}
+  .qa p{font-size:17px}
+  .cta{height:auto;min-height:0;overflow:visible;background:var(--surface)}
+  .cta > img{position:relative;height:70svh}
+  .cta__text{position:static;padding:40px var(--m) 72px}
+  .cta h2{font-size:28px}
+  .cta p{font-size:17px}
+  .mail{width:100%;min-height:72px;font-size:16px;padding:0 18px}
+  .foot{grid-template-columns:1fr}
+  .foot__monkey{height:50svh}
+  .foot__monkey .mk{width:120%;left:-10%;bottom:-45%}
+  .foot__menu{padding:48px var(--m) 28px}
+  .foot nav a{font-size:8vw}
+  .foot nav ul{gap:20px}
+  .foot__info{grid-template-columns:1fr;gap:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  .js .rv{opacity:1;transform:none}
+  .verb > img{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#inicio" aria-label="Julian.dev17, inicio"><span data-monkey="nav" class="mkslot"></span><span>JULIAN<b>.DEV17</b></span></a>
+  <button class="menu-word" aria-expanded="false" aria-controls="navlinks">Menú</button>
+  <ul id="navlinks">
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#preguntas">Preguntas</a></li>
+    <li><a class="btn" href="#contacto">Cotizar</a></li>
+  </ul>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="inicio" aria-label="Inicio">
+  <div class="hero__stage">
+    <div class="hero__monkey" data-monkey="peek" role="img" aria-label="La mascota de Julian.dev17, un mono con gafas, asomándose"></div>
+    <div class="hero__pic" id="heroPic">
+      <img src="assets/street-comuna-13-medellin-colombia-2024.jpg" width="1920" height="910" alt="Calle de la Comuna 13 en Medellín, con fachadas pintadas y pequeños negocios">
+    </div>
+    <div class="hero__text" id="heroText">
+      <h1>Tu negocio, en internet.</h1>
+      <div class="hero__side">
+        <p>Diseño y programo páginas web para negocios. Landing page desde $50 USD, lista para que tus clientes te escriban.</p>
+        <a class="btn" href="#precios">Ver precios</a>
+      </div>
+    </div>
+    <p class="hero__cap" id="heroCap">Comuna 13, Medellín. Cada vitrina de esta calle cabe en una página.</p>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="verbs" id="proceso" aria-label="Cómo trabajamos">
+  <article class="verb">
+    <img src="assets/cartagena-atardeciendo-51704593984.jpg" width="1920" height="1281" alt="Calle de Cartagena al atardecer" loading="lazy">
+    <div class="verb__track"><h2><span>Hablamos</span></h2></div>
+    <p><strong>Me cuentas de tu negocio.</strong>Qué vendes, a quién y qué quieres que haga tu página: que te escriban, que reserven, que te encuentren en Google.</p>
+  </article>
+  <article class="verb">
+    <img src="assets/graffiti-in-comuna-13-medellin-03.jpg" width="1920" height="1280" alt="Grafiti de colores en la Comuna 13 de Medellín" loading="lazy">
+    <div class="verb__track"><h2><span>Diseño</span></h2></div>
+    <p><strong>Con tus colores y tu logo.</strong>Armo el diseño con la cara de tu negocio y lo revisamos juntos antes de programar.</p>
+  </article>
+  <article class="verb">
+    <img src="assets/guatape.jpg" width="1920" height="1440" alt="Fachadas de colores con zócalos en Guatapé, Antioquia" loading="lazy">
+    <div class="verb__track"><h2><span>Programo</span></h2></div>
+    <p><strong>Rápida y pensada para el celular.</strong>Ahí es donde la van a abrir tus clientes, así que ahí tiene que verse perfecta.</p>
+  </article>
+  <article class="verb">
+    <img src="assets/shop-museo-comuna-13-medellin-colombia-2024.jpg" width="1280" height="2705" alt="Tienda pequeña en la Comuna 13 de Medellín" loading="lazy" style="object-position:50% 40%">
+    <div class="verb__track"><h2><span>Publico</span></h2></div>
+    <p><strong>Y queda en línea.</strong>La subo a tu dominio, conecto el hosting y, si los necesitas, tus correos corporativos.</p>
+  </article>
+</section>
+
+<!-- EJEMPLO -->
+<section class="show" id="ejemplo" data-stage="0" aria-labelledby="showTitle">
+  <div class="show__stage">
+    <h2 id="showTitle"><span class="a">Así se ve</span> <span class="b">tu landing.</span></h2>
+    <div class="show__steps"><button type="button" data-go="0">La página completa</button><button type="button" data-go="1">El botón que vende</button><button type="button" data-go="2">Lo que preguntan tus clientes</button></div>
+    <div class="frame" role="img" aria-label="Ejemplo de landing page para una panadería ficticia, La 17">
+      <div class="frame__inner">
+        <div class="ui" data-ui>
+          <div class="ui__bar"><span>La 17 · Panadería</span><span>Menú</span></div>
+          <div class="ui__hero">
+            <img src="assets/0-monschau-backerei-conditorei.jpg" width="1920" height="1280" alt="" loading="lazy">
+            <div>Pan caliente desde las 6 a.m.</div>
+          </div>
+          <div class="ui__cta">
+            <span><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.3.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.1-.3.3-.1.6.1.3.7 1.1 1.5 1.8 1 .9 1.8 1.2 2.1 1.3.3.1.4.1.6-.1l.8-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.8-.1 1.3Z"/></svg>Pedir por WhatsApp</span>
+            <span>Ver menú</span>
+          </div>
+          <div class="ui__row">
+            <div class="ui__box"><b>Horario</b><p>Lun a sáb · 6:00 a 19:00<br>Dom · 7:00 a 13:00</p><div class="ui__map" aria-hidden="true"><i style="left:0;right:0;top:45%;height:1.4cqw"></i><i style="top:0;bottom:0;left:38%;width:1.4cqw"></i><i style="left:36%;top:38%;width:4cqw;height:4cqw;border-radius:50%;background:#e3262f"></i></div></div>
+            <div class="ui__box"><b>Lo del día</b>
+              <div class="ui__price"><span>Pandebono</span><span>$2.000</span></div>
+              <div class="ui__price"><span>Almojábana</span><span>$2.500</span></div>
+              <div class="ui__price"><span>Buñuelo</span><span>$1.800</span></div>
+              <div class="ui__price"><span>Pan de bono x6</span><span>$11.000</span></div>
+            </div>
+          </div>
+          <div class="ui__foot">Calle 17 · Envigado · @la17panaderia</div>
+        </div>
+      </div>
+    </div>
+    <p class="show__cap"><strong>Lo que tus clientes buscan, a un toque.</strong><span>Horario, ubicación y productos con precio, más un botón directo a tu WhatsApp. Una sola página que contesta antes de que pregunten.</span></p>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section class="work" id="proyectos" aria-labelledby="workTitle">
+  <div class="work__head">
+    <h2 id="workTitle" class="rv">Proyectos reales.</h2>
+    <p class="rv" style="--i:1">Sitios que desarrollé para empresas, proyectos en los que trabajé y lo que construyo por mi cuenta. Pasa por cada nombre para verlo.</p>
+  </div>
+  <div class="work__grid">
+    <div class="work__view">
+      <div class="work__screen"><img class="shot on" data-k="valterra" src="assets/work/valterra.jpg" width="1440" height="1000" alt="" loading="lazy"><div class="shot shot--type" data-k="gesglobal"><b>GES Global</b><span>gesglobal.com.co</span></div><img class="shot" data-k="mpaz" src="assets/work/mpaz.jpg" width="1440" height="1000" alt="" loading="lazy"><img class="shot" data-k="mindnaturals" src="assets/work/mindnaturals.jpg" width="1440" height="1000" alt="" loading="lazy"><img class="shot" data-k="bastion" src="assets/work/bastion.jpg" width="1440" height="1000" alt="" loading="lazy"><img class="shot" data-k="reproductor" src="assets/work/reproductor.jpg" width="1440" height="1000" alt="" loading="lazy"></div>
+      <span data-monkey="work" aria-hidden="true"></span>
+      <p id="workUrl">valterraadvisory.com</p>
+    </div>
+    <div class="work__list"><div><h3 class="rv">Desarrollados por mí</h3><ul><li><a class="proj rv" data-k="valterra" href="https://valterraadvisory.com/" target="_blank" rel="noopener"><b>Valterra Advisory</b><span>Consultoría para empresas · lo diseñé y desarrollé</span><img src="assets/work/valterra.jpg" width="1440" height="1000" alt="Captura de Valterra Advisory" loading="lazy"></a></li><li><a class="proj rv" data-k="gesglobal" href="https://gesglobal.com.co/" target="_blank" rel="noopener"><b>GES Global</b><span>Empresa colombiana · lo desarrollé</span><div class="noimg">gesglobal.com.co</div></a></li></ul></div><div><h3 class="rv">Proyectos en los que trabajé</h3><ul><li><a class="proj rv" data-k="mpaz" href="https://mpazstudio.com/" target="_blank" rel="noopener"><b>Mpaz Studio</b><span>Tienda de moda en línea · trabajé en el sitio</span><img src="assets/work/mpaz.jpg" width="1440" height="1000" alt="Captura de Mpaz Studio" loading="lazy"></a></li><li><a class="proj rv" data-k="mindnaturals" href="https://www.beautynewsnycofficial.com/beauty/skin-care/mind-naturals-clean-colombian-skincare/" target="_blank" rel="noopener"><b>MIND Naturals</b><span>Skincare colombiano en Beauty News NYC · trabajé en el proyecto</span><img src="assets/work/mindnaturals.jpg" width="1440" height="1000" alt="Captura de MIND Naturals" loading="lazy"></a></li></ul></div><div><h3 class="rv">Proyectos propios</h3><ul><li><a class="proj rv" data-k="bastion" href="https://d2hamzya82eavk.cloudfront.net/" target="_blank" rel="noopener"><b>Bastión Arcano</b><span>Juego de cartas en el navegador: héroes, mazo y cinco mundos</span><img src="assets/work/bastion.jpg" width="1440" height="1000" alt="Captura de Bastión Arcano" loading="lazy"></a></li><li><a class="proj rv" data-k="reproductor" href="https://d34thrudc40kck.cloudfront.net/" target="_blank" rel="noopener"><b>White Door</b><span>Reproductor de música con artistas, cola y subida de canciones</span><img src="assets/work/reproductor.jpg" width="1440" height="1000" alt="Captura de White Door" loading="lazy"></a></li></ul></div></div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section class="prices" id="precios" aria-labelledby="pricesTitle">
+  <div class="prices__head">
+    <div>
+      <h2 id="pricesTitle" class="rv">Elige tu página.</h2>
+      <p class="rv" style="--i:1">Precios claros, en la moneda que prefieras. El hosting se paga aparte y te ayudo a elegirlo.</p>
+    </div>
+    <div class="cur rv" style="--i:2" role="radiogroup" aria-label="Moneda">
+      <input type="radio" name="cur" id="c-usd" value="usd" checked><label for="c-usd">USD</label>
+      <input type="radio" name="cur" id="c-eur" value="eur"><label for="c-eur">EUR</label>
+      <input type="radio" name="cur" id="c-cop" value="cop"><label for="c-cop">COP</label>
+    </div>
+  </div>
+
+  <div class="tickets">
+    <article class="ticket rv" style="--cut:68%">
+      <span class="ticket__perf" aria-hidden="true"></span>
+      <div class="ticket__main">
+        <div><h3>Landing page</h3><p class="ticket__lede">Una sola página con una meta: que tus clientes te escriban o te compren.</p></div>
+        <ul>
+          <li>Una página, todas tus secciones</li>
+          <li>Botón directo a WhatsApp</li>
+          <li>Tus redes y tu ubicación</li>
+          <li>Diseñada para celular</li>
+        </ul>
+      </div>
+      <div class="ticket__stub">
+        <div class="price" data-usd="$50" data-eur="€45" data-cop="$158.000"><span class="pv">$50</span><small class="pc">USD · más hosting</small></div>
+        <a class="btn btn--ink" data-plan="Landing page" href="mailto:julian.dev1704@gmail.com">La quiero</a>
+      </div>
+    </article>
+
+    <article class="ticket rv" style="--cut:72%">
+      <span class="ticket__perf" aria-hidden="true"></span>
+      <div class="ticket__main">
+        <div><h3>Página web</h3><p class="ticket__lede">Varias secciones para contar todo tu negocio, con correos a tu nombre.</p></div>
+        <ul>
+          <li>Inicio, servicios, nosotros, contacto</li>
+          <li>Correos corporativos aparte</li>
+          <li>Formulario y mapa</li>
+          <li>Extras según lo que necesites</li>
+        </ul>
+      </div>
+      <div class="ticket__stub">
+        <div class="price" data-usd="$100" data-eur="€89" data-cop="$315.000"><span class="pv">$100</span><small class="pc">USD · más hosting y correos</small></div>
+        <a class="btn btn--ink" data-plan="Página web" href="mailto:julian.dev1704@gmail.com">La quiero</a>
+      </div>
+    </article>
+
+    <article class="ticket ticket--custom rv" style="--cut:74%">
+      <span class="ticket__perf" aria-hidden="true"></span>
+      <div class="ticket__main">
+        <div><h3>A tu medida</h3><p class="ticket__lede">Arma tu lista: marca lo que necesitas y lo hablamos.</p></div>
+        <fieldset class="chips" style="border:0;padding:0;margin:0">
+          <legend class="sr">Extras para tu página</legend>
+          <input type="checkbox" id="x1" value="Hosting"><label for="x1">Hosting</label>
+          <input type="checkbox" id="x2" value="Dominio propio"><label for="x2">Dominio propio</label>
+          <input type="checkbox" id="x3" value="Correos corporativos"><label for="x3">Correos corporativos</label>
+          <input type="checkbox" id="x4" value="Tienda en línea"><label for="x4">Tienda en línea</label>
+          <input type="checkbox" id="x5" value="Reservas o citas"><label for="x5">Reservas o citas</label>
+          <input type="checkbox" id="x6" value="Blog"><label for="x6">Blog</label>
+          <input type="checkbox" id="x7" value="Varios idiomas"><label for="x7">Varios idiomas</label>
+          <input type="checkbox" id="x8" value="Galería de fotos"><label for="x8">Galería de fotos</label>
+        </fieldset>
+        <p class="picked" id="picked" aria-live="polite">Tu lista está vacía.</p>
+      </div>
+      <div class="ticket__stub">
+        <span data-monkey="pick" aria-hidden="true"></span>
+        <div class="price" data-usd="$50" data-eur="€45" data-cop="$158.000"><span class="pv">desde $50</span><small class="pc">USD · precio negociable</small></div>
+        <a class="btn btn--ink" id="customBtn" href="mailto:julian.dev1704@gmail.com">Cotizar mi lista</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- PREGUNTAS -->
+<section class="faq" id="preguntas" aria-labelledby="faqTitle">
+  <div class="faq__head"><h2 id="faqTitle" class="rv">Preguntas.</h2></div>
+  <div class="qa"><h3>¿Qué diferencia hay entre una landing y una página web?</h3><p>La landing es una sola página con una meta: que te escriban, que reserven o que compren. La página web tiene varias secciones para contar todo tu negocio: servicios, quiénes son, contacto.</p></div>
+  <div class="qa"><h3>¿Qué es el hosting y por qué va aparte?</h3><p>Es el espacio donde vive tu página en internet. Es un servicio de un proveedor que se renueva, por eso se paga aparte. Te ayudo a escoger uno según lo que necesitas y lo dejo configurado.</p></div>
+  <div class="qa"><h3>¿Qué es un correo corporativo?</h3><p>Un correo con el nombre de tu negocio, como ventas@tunegocio.com. Da más confianza que una dirección gratuita. El precio depende de cuántos correos necesites.</p></div>
+  <div class="qa"><h3>¿Se va a ver bien en el celular?</h3><p>Sí. Diseño cada página primero para el celular, que es donde la abre la mayoría de tus clientes, y luego para computador.</p></div>
+  <div class="qa"><h3>¿Cuánto se demora?</h3><p>Depende de lo que necesites. Antes de empezar te doy una fecha de entrega concreta para tu proyecto.</p></div>
+  <div class="qa"><h3>¿Puedo pagar en pesos, dólares o euros?</h3><p>Sí. Los precios están en las tres monedas; el medio de pago lo acordamos por correo.</p></div>
+</section>
+
+<!-- CONTACTO -->
+<section class="cta" id="contacto" aria-labelledby="ctaTitle">
+  <img src="assets/street-comuna-13-medellin-colombia-2024.jpg" width="1920" height="910" alt="La misma calle de la Comuna 13, con sus negocios">
+  <div class="cta__text">
+    <h2 id="ctaTitle" class="rv">¿Hablamos de tu negocio?</h2>
+    <p class="rv" style="--i:1">Escríbeme qué necesitas y te respondo con una propuesta y un precio. Sin compromiso.</p>
+    <a class="btn btn--paper mail rv" style="--i:2" href="mailto:julian.dev1704@gmail.com?subject=Quiero%20una%20p%C3%A1gina%20web%20para%20mi%20negocio">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 5h18v14H3z"/><path d="m3 6 9 7 9-7"/></svg>
+      julian.dev1704@gmail.com
+    </a>
+    <a class="ig rv" style="--i:3" href="https://www.instagram.com/julian.dev17" target="_blank" rel="noopener">También estoy en Instagram: @julian.dev17</a>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="foot__monkey"><span data-monkey="big" role="img" aria-label="El mono de Julian.dev17 mirando hacia el menú"></span></div>
+  <div class="foot__menu">
+    <a class="brand foot__brand" href="#inicio">JULIAN<b>.DEV17</b></a>
+    <nav aria-label="Pie de página">
+      <ul>
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#proceso">Proceso</a></li>
+        <li><a href="#ejemplo">Ejemplo</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#precios">Precios</a></li>
+        <li><a href="#preguntas">Preguntas</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="foot__info">
+      <div><b>Correo</b><a href="mailto:julian.dev1704@gmail.com">julian.dev1704@gmail.com</a></div>
+      <div><b>Instagram</b><a href="https://www.instagram.com/julian.dev17" target="_blank" rel="noopener">@julian.dev17</a></div>
+    </div>
+    <div class="foot__legal">
+      <p>Página desarrollada por JulianDev17 · © 2026. La panadería del ejemplo es ficticia.</p>
+      <p class="credits">Fotos: <a href="https://commons.wikimedia.org/wiki/File:Street_-_Comuna_13_-_Medell%C3%ADn_-_Colombia_2024.jpg">“Street - Comuna 13”</a> de Jbribeiro1, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Cartagena_atardeciendo_-_51704593984.jpg">“Cartagena atardeciendo”</a> de Esteban Palacios Blanco, <a href="https://creativecommons.org/licenses/by/2.0">CC BY 2.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Graffiti_in_Comuna_13,_Medell%C3%ADn_03.jpg">“Graffiti in Comuna 13, Medellín 03”</a> de Bernard Gagnon, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Guatape.jpg">“Guatape”</a> de Allmhurach, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>; <a href="https://commons.wikimedia.org/wiki/File:Shop_-_Museo_Comuna_13_-_Medell%C3%ADn_-_Colombia_2024.jpg">“Shop - Museo Comuna 13”</a> de José Luiz, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>; <a href="https://commons.wikimedia.org/w/index.php?curid=24802896">“Monschau - Bäckerei-conditorei”</a> de Jean-Pol Grandmont, <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>. Todas vía Wikimedia Commons.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  root.classList.add('js');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var MAIL='julian.dev1704@gmail.com';
+
+  /* ---------- the monkey ---------- */
+  var RED='#e3262f', RED2='#c51d26', CREAM='#f6d6c1', INK='#161214';
+  function mouth(s){ // s: 0 calm smile → 1 big grin
+    var y=136, d=10+s*14;
+    return 'M80 '+y+' Q100 '+(y+d)+' 120 '+y+' Q100 '+(y+d*.35)+' 80 '+y+'Z';
+  }
+  function monkey(){
+    return '<svg class="mk" viewBox="0 0 200 196" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+
+      '<circle cx="32" cy="102" r="25" fill="'+RED+'"/><circle cx="32" cy="102" r="14" fill="'+CREAM+'"/>'+
+      '<circle cx="168" cy="102" r="25" fill="'+RED+'"/><circle cx="168" cy="102" r="14" fill="'+CREAM+'"/>'+
+      '<path d="M88 46 C84 26 100 18 106 32 C110 20 128 24 120 44 Z" fill="'+RED2+'"/>'+
+      '<ellipse cx="100" cy="102" rx="66" ry="62" fill="'+RED+'"/>'+
+      '<g fill="'+CREAM+'"><circle cx="76" cy="100" r="27"/><circle cx="124" cy="100" r="27"/><ellipse cx="100" cy="132" rx="48" ry="34"/></g>'+
+      '<path d="M58 78 Q72 70 88 77 M112 77 Q128 70 142 78" stroke="'+INK+'" stroke-width="4.5" fill="none" stroke-linecap="round"/>'+
+      '<g class="eyes"><rect x="52" y="86" width="44" height="32" rx="9" fill="#fff"/><rect x="104" y="86" width="44" height="32" rx="9" fill="#fff"/>'+
+      '<g class="pupils"><circle cx="74" cy="102" r="7" fill="'+INK+'"/><circle cx="126" cy="102" r="7" fill="'+INK+'"/><circle cx="76.5" cy="99.5" r="2.2" fill="#fff"/><circle cx="128.5" cy="99.5" r="2.2" fill="#fff"/></g>'+
+      '<g class="lids" fill="'+CREAM+'"><rect x="52" y="86" width="44" height="32" rx="9"/><rect x="104" y="86" width="44" height="32" rx="9"/></g>'+
+      '<g class="glint"><path d="M60 114 L74 88 L82 88 L68 114Z M112 114 L126 88 L134 88 L120 114Z" fill="#fff" opacity=".8"/></g></g>'+
+      '<g fill="none" stroke="'+RED2+'" stroke-width="6" stroke-linejoin="round"><rect x="52" y="86" width="44" height="32" rx="9"/><rect x="104" y="86" width="44" height="32" rx="9"/><path d="M96 98 Q100 94 104 98 M52 96 L22 92 M148 96 L178 92"/></g>'+
+      '<g fill="#a8433a"><ellipse cx="94" cy="126" rx="2.8" ry="2.2"/><ellipse cx="106" cy="126" rx="2.8" ry="2.2"/></g>'+
+      '<path class="mouth" d="'+mouth(.2)+'" fill="#5b1418" stroke="'+INK+'" stroke-width="3" stroke-linejoin="round"/>'+
+      '</svg>';
+  }
+  var monkeys=[];
+  document.querySelectorAll('[data-monkey]').forEach(function(el){
+    el.innerHTML=monkey();
+    var svg=el.querySelector('svg');
+    monkeys.push(svg);
+    if(el.getAttribute('data-monkey')==='nav') svg.style.width=svg.style.height='40px';
+  });
+
+  /* eyes follow the pointer (or the scroll on touch) */
+  var px=innerWidth/2, py=innerHeight/2, eyeQueued=false;
+  function lookAll(){
+    eyeQueued=false;
+    monkeys.forEach(function(svg){
+      var r=svg.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight||!r.width) return;
+      var cx=r.left+r.width/2, cy=r.top+r.height*.52;
+      var dx=px-cx, dy=py-cy, d=Math.hypot(dx,dy)||1, k=Math.min(1,d/400);
+      svg.querySelector('.pupils').setAttribute('transform','translate('+(dx/d*9*k).toFixed(2)+' '+(dy/d*6*k).toFixed(2)+')');
+    });
+  }
+  function queueLook(){ if(!eyeQueued){eyeQueued=true;requestAnimationFrame(lookAll);} }
+  addEventListener('pointermove',function(e){px=e.clientX;py=e.clientY;queueLook();},{passive:true});
+  addEventListener('scroll',queueLook,{passive:true});
+  /* blinking */
+  function blink(svg){svg.classList.add('blink');setTimeout(function(){svg.classList.remove('blink');},140);}
+  if(!reduce) setInterval(function(){ monkeys.forEach(function(s){ if(Math.random()<.5) setTimeout(function(){blink(s)},Math.random()*900); }); },3600);
+  /* click a monkey: wink and glint */
+  monkeys.forEach(function(svg){
+    svg.parentNode.addEventListener('click',function(){
+      svg.classList.remove('wink'); void svg.getBBox(); svg.classList.add('wink'); blink(svg);
+    });
+  });
+
+  /* ---------- nav menu on phones ---------- */
+  var nav=document.getElementById('nav'), mw=nav.querySelector('.menu-word');
+  mw.addEventListener('click',function(){var o=nav.classList.toggle('open');mw.setAttribute('aria-expanded',o);mw.textContent=o?'Cerrar':'Menú';});
+  nav.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open');mw.setAttribute('aria-expanded','false');mw.textContent='Menú';});});
+
+  /* ---------- hero: the window opens to the edges ---------- */
+  var hero=document.querySelector('.hero'), pic=document.getElementById('heroPic'),
+      text=document.getElementById('heroText'), cap=document.getElementById('heroCap'),
+      peek=document.querySelector('.hero__monkey');
+  if(!reduce){
+    var g={}, live=false;
+    function clearHero(){ [pic,text,cap,peek].forEach(function(el){el.removeAttribute('style');}); hero.style.removeProperty('--wb'); }
+    function measure(){
+      var vw=innerWidth, vh=innerHeight, mob=false, w, h;
+      // phones get the calm stacked layout: no pinned scroll
+      var want=vw>=768 && vh>=520;
+      if(want!==live){ live=want; root.classList.toggle('hero-live',live); clearHero(); }
+      if(!live) return;
+      if(mob){ w=vw*.78; h=w*1.25; g.top=vh*.30; if(g.top+h>vh-150){h=vh-150-g.top;w=h/1.25;} }
+      else { w=vw*.36; h=w*1.25; var max=vh-240; if(h>max){h=max;w=h/1.25;} g.top=(vh-h)/2+20; }
+      g.w=w; g.h=h; g.side=(vw-w)/2; g.bot=vh-g.top-h; g.mob=mob; g.vh=vh; g.vw=vw;
+      g.mw=mob? Math.min(130,vw*.32) : Math.max(170,w*.46);
+      peek.style.width=g.mw+'px';
+      if(!mob) hero.style.setProperty('--wb',g.bot+'px');
+      draw();
+    }
+    function ease(t){return 1-Math.pow(1-t,3);}
+    function draw(){
+      if(!live) return;
+      var r=hero.getBoundingClientRect(), run=g.vh*.55;
+      var p=Math.min(1,Math.max(0,-r.top/run)), e=ease(p), k=1-e;
+      var rad=28*k;
+      pic.style.clipPath='inset('+(g.top*k).toFixed(1)+'px '+(g.side*k).toFixed(1)+'px '+(g.bot*k).toFixed(1)+'px '+(g.side*k).toFixed(1)+'px round '+rad.toFixed(1)+'px)';
+      var to=Math.max(0,1-p*2.6); text.style.opacity=to; text.style.visibility=to<.02?'hidden':'visible';
+      text.style.transform='translateY('+(-p*80).toFixed(1)+'px)';
+      var after=Math.min(1,Math.max(0,(-r.top-run)/(g.vh*.04)));
+      cap.style.opacity=after; cap.style.visibility=after<.02?'hidden':'visible'; cap.style.transform='translateY('+((1-after)*24).toFixed(1)+'px)';
+      // the monkey hides behind the window's right edge (phones: its top edge); the opening swallows it
+      var mh=g.mw*.98, x, y, rot;
+      if(g.mob){ x=g.vw/2-g.mw/2; y=g.top*k-mh*.62; rot=0; }
+      else { x=g.side*k+g.w+ (g.side*2*e) - g.mw*.42; y=g.top*k+g.h*.12; rot=14; }
+      peek.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) rotate('+rot+'deg)';
+    }
+    measure();
+    addEventListener('resize',measure);
+    addEventListener('scroll',function(){requestAnimationFrame(draw);},{passive:true});
+  }
+
+  /* ---------- reveals ---------- */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.rv,.verb').forEach(function(el){io.observe(el);});
+  /* a fast jump past a section still shows everything above the fold line */
+  var sweepQ=false;
+  function sweep(){document.querySelectorAll('.rv:not(.in)').forEach(function(el){if(el.getBoundingClientRect().top<innerHeight*.95){el.classList.add('in');io.unobserve(el);}});}
+  addEventListener('scroll',function(){clearTimeout(sweepQ);sweepQ=setTimeout(sweep,60);},{passive:true});
+
+  /* ---------- verbs: letters rise one by one ---------- */
+  if(!reduce) document.querySelectorAll('.verb h2 span').forEach(function(s){
+    var t=s.textContent; s.setAttribute('aria-label',t); s.textContent='';
+    t.split('').forEach(function(ch,i){var c=document.createElement('span');c.textContent=ch;c.setAttribute('aria-hidden','true');c.className='rv';c.style.setProperty('--i',i*.6);s.appendChild(c);io.observe(c);});
+  });
+
+  /* ---------- showcase: one frame, three distances ---------- */
+  var show=document.querySelector('.show');
+  // the stage follows how far the reader has scrolled through the section, so it never skips or sticks
+  function showRun(){ return Math.max(1, show.offsetHeight - innerHeight); }
+  function stageAt(){
+    var p=-show.getBoundingClientRect().top/showRun();
+    var st=p<.33?0:p<.66?1:2;
+    if(show.dataset.stage!=String(st)) show.dataset.stage=st;
+  }
+  addEventListener('scroll',stageAt,{passive:true}); addEventListener('resize',stageAt); stageAt();
+  show.querySelectorAll('[data-go]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var top=show.getBoundingClientRect().top+scrollY+showRun()*(+b.dataset.go*.33+.16);
+      scrollTo({top:top,behavior:reduce?'auto':'smooth'});
+    });
+  });
+
+  /* ---------- projects: the lit screen follows the list ---------- */
+  var shotsEl=[].slice.call(document.querySelectorAll('.shot')), urlEl=document.getElementById('workUrl');
+  document.querySelectorAll('.proj').forEach(function(a){
+    function on(){
+      shotsEl.forEach(function(s){s.classList.toggle('on',s.dataset.k===a.dataset.k);});
+      document.querySelectorAll('.proj').forEach(function(b){b.classList.toggle('on',b===a);});
+      urlEl.textContent=a.hostname.replace(/^www\./,'');
+    }
+    a.addEventListener('pointerenter',on); a.addEventListener('focus',on);
+  });
+
+  /* ---------- prices: currency + the custom list ---------- */
+  var cur='usd', NOTE={usd:'USD',eur:'EUR',cop:'COP'};
+  function paint(){
+    document.querySelectorAll('.price').forEach(function(p){
+      var pv=p.querySelector('.pv'), pc=p.querySelector('.pc'), v=p.dataset[cur];
+      var custom=p.closest('.ticket--custom');
+      pv.textContent=(custom?'desde ':'')+v;
+      pc.textContent=pc.textContent.replace(/^(USD|EUR|COP)/,NOTE[cur]);
+      p.classList.toggle('price--cop',cur==='cop');
+    });
+    document.querySelectorAll('[data-plan]').forEach(function(a){
+      var plan=a.dataset.plan, price=a.closest('.ticket').querySelector('.price').dataset[cur];
+      a.href='mailto:'+MAIL+'?subject='+encodeURIComponent('Quiero una '+plan)+'&body='+encodeURIComponent('Hola Julian, me interesa la '+plan.toLowerCase()+' ('+price+' '+NOTE[cur]+' más hosting).\n\nMi negocio es: \nLo que necesito: \n');
+    });
+    list();
+  }
+  document.querySelectorAll('input[name=cur]').forEach(function(r){r.addEventListener('change',function(){cur=r.value;paint();});});
+  var chips=[].slice.call(document.querySelectorAll('.chips input')), picked=document.getElementById('picked'), cbtn=document.getElementById('customBtn');
+  var pickMonkey=document.querySelector('[data-monkey="pick"] svg');
+  function list(){
+    var sel=chips.filter(function(c){return c.checked;}).map(function(c){return c.value;});
+    picked.textContent=sel.length? 'Tu lista: '+sel.join(', ')+'.' : 'Tu lista está vacía.';
+    var base=document.querySelector('.ticket--custom .price').dataset[cur];
+    cbtn.href='mailto:'+MAIL+'?subject='+encodeURIComponent('Página a mi medida')+'&body='+encodeURIComponent('Hola Julian, quiero una página a mi medida (desde '+base+' '+NOTE[cur]+').\n\nMe interesa:\n'+(sel.length? sel.map(function(s){return '- '+s;}).join('\n') : '- (cuéntame qué necesitas)')+'\n\nMi negocio es: \n');
+    if(pickMonkey) pickMonkey.querySelector('.mouth').setAttribute('d',mouth(Math.min(1,.2+sel.length*.12)));
+  }
+  chips.forEach(function(c){c.addEventListener('change',function(){list(); if(pickMonkey&&c.checked) blink(pickMonkey);});});
+  paint();
+})();
+</script>
+</body>
+</html>
