@@ -58,30 +58,17 @@ p{margin:0}
 .nav .btn{min-height:44px;padding:0 18px;font-size:var(--fs-s)}
 .menu-word{display:none;background:none;border:0;color:var(--ink);font:inherit;font-weight:700;font-size:var(--fs-s);cursor:pointer;padding:8px 0}
 
-/* ---------- HERO: window that opens to the edges ---------- */
-.hero{position:relative;height:165svh}
-.hero__stage{position:sticky;top:0;height:100svh;overflow:hidden}
-.hero__pic{position:absolute;inset:0;z-index:2}
-.hero__pic img{width:100%;height:100%;object-fit:cover;object-position:50% 45%}
-.hero__monkey{position:absolute;z-index:1;width:200px;left:0;top:0;transform-origin:30% 60%;cursor:pointer}
-.hero__text{position:absolute;z-index:3;inset:0;pointer-events:none}
-.hero__text > *{pointer-events:auto}
-.hero h1{position:absolute;left:var(--m);bottom:var(--wb,120px);font-size:clamp(44px,4.4vw,70px);max-width:9ch}
-.hero__side{position:absolute;right:var(--m);bottom:var(--wb,120px);width:min(27ch,24vw);display:grid;gap:24px}
-.hero__side p{font-size:var(--fs-b)}
-.hero__cap{position:absolute;z-index:3;left:var(--m);bottom:40px;max-width:36ch;font-size:var(--fs-m);font-weight:700;line-height:1.15;letter-spacing:-.01em;opacity:0;padding:18px 20px 18px 0}
-.hero__cap::before{content:"";position:absolute;inset:-40px -60px -40px calc(-1 * var(--m));background:radial-gradient(closest-side,rgba(0,0,0,.55),rgba(0,0,0,0));z-index:-1} /* taste-skill-ignore: neutral scrim over photo */
-/* static fallback (no JS / reduced motion) */
-/* static hero: phones, reduced motion, no script. Headline, the window with the monkey peeking over it, then the offer */
-html:not(.hero-live) .hero{height:auto;padding:104px var(--m) 88px}
-html:not(.hero-live) .hero__stage{position:relative;height:auto;overflow:visible;display:grid;grid-template-columns:minmax(0,1fr);max-width:1100px;margin:0 auto}
-html:not(.hero-live) .hero__text{display:contents}
-html:not(.hero-live) .hero h1{position:static;order:1;max-width:none;font-size:clamp(40px,8vw,84px)}
-html:not(.hero-live) .hero__monkey{--mw:clamp(110px,22vw,170px);position:relative;order:2;width:var(--mw);justify-self:end;margin:20px 8% calc(var(--mw) * -.42) 0;transform:none}
-html:not(.hero-live) .hero__pic{position:relative;order:3;inset:auto;aspect-ratio:4/3;max-height:62svh;width:100%;border-radius:var(--win-r);overflow:hidden}
-html:not(.hero-live) .hero__cap{position:static;order:6;opacity:1;visibility:visible;transform:none;font-size:var(--fs-s);font-weight:500;line-height:1.5;padding:12px 0 0;max-width:none;color:var(--muted)}
-html:not(.hero-live) .hero__cap::before{display:none}
-html:not(.hero-live) .hero__side{position:static;order:4;width:auto;max-width:46ch;margin-top:24px}
+/* ---------- HERO: type and the monkey, no photo, no pinned scroll ---------- */
+.hero{position:relative;min-height:100svh;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:center;gap:clamp(24px,4vw,64px);padding:120px var(--m) 80px;overflow:hidden}
+.hero h1{font-size:clamp(56px,8.4vw,150px);max-width:9ch}
+.hero h1 em{font-style:normal;color:var(--accent-lit)}
+.hero__side{display:grid;gap:28px;max-width:44ch;margin-top:44px}
+.hero__side p{font-size:clamp(18px,1.4vw,21px);color:var(--muted)}
+.hero__side p strong{color:var(--ink);font-weight:700}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:14px}
+.hero__ctas .btn--ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px #3a3a3f}
+.hero__ctas .btn--ghost:hover{background:var(--surface)}
+.hero__monkey{justify-self:center;width:min(100%,440px);cursor:pointer;transform:rotate(-6deg)}
 
 /* ---------- PROCESO: one verb at a time ---------- */
 .verbs{position:relative}
@@ -267,10 +254,11 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
   .nav.open ul{display:flex}
   .nav ul a{font-size:22px}
   .menu-word{display:block}
-  html:not(.hero-live) .hero{padding:88px var(--m) 64px}
-  html:not(.hero-live) .hero h1{font-size:11.5vw}
-  html:not(.hero-live) .hero__pic{aspect-ratio:4/3;max-height:40svh}
-  .hero__side{gap:16px}
+  .hero{grid-template-columns:minmax(0,1fr);min-height:0;padding:100px var(--m) 64px;gap:8px}
+  .hero__monkey{order:-1;justify-self:end;width:clamp(110px,32vw,160px);margin-bottom:-8px}
+  .hero h1{font-size:15vw}
+  .hero__side{gap:20px;margin-top:28px}
+  .hero__ctas .btn{flex:1 1 100%}
   .hero__side p{font-size:16px}
   .hero__side .btn{width:100%}
   .verb{height:clamp(420px,72svh,640px)}
@@ -346,20 +334,17 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
 <main>
 <!-- HERO -->
 <section class="hero" id="inicio" aria-label="Inicio">
-  <div class="hero__stage">
-    <div class="hero__monkey" data-monkey="peek" role="img" aria-label="La mascota de Julian.dev17, un mono con gafas, asomándose"></div>
-    <div class="hero__pic" id="heroPic">
-      <img src="assets/street-comuna-13-medellin-colombia-2024.jpg" width="1920" height="910" alt="Calle de la Comuna 13 en Medellín, con fachadas pintadas y pequeños negocios">
-    </div>
-    <div class="hero__text" id="heroText">
-      <h1>Tu negocio, en internet.</h1>
-      <div class="hero__side">
-        <p>Diseño y programo páginas web para negocios. Landing page desde $50 USD, lista para que tus clientes te escriban.</p>
+  <div class="hero__text">
+    <h1>Tu negocio, en <em>internet.</em></h1>
+    <div class="hero__side">
+      <p>Diseño y programo páginas web para negocios, desde Bogotá. <strong>Landing page desde $50 USD</strong>, lista para que tus clientes te escriban.</p>
+      <div class="hero__ctas">
         <a class="btn" href="#precios">Ver precios</a>
+        <a class="btn btn--ghost" href="#proyectos">Ver proyectos</a>
       </div>
     </div>
-    <p class="hero__cap" id="heroCap">Comuna 13, Medellín. Cada vitrina de esta calle cabe en una página.</p>
   </div>
+  <div class="hero__monkey" data-monkey="peek" role="img" aria-label="La mascota de Julian.dev17, un mono con gafas"></div>
 </section>
 
 <!-- PROCESO -->
@@ -629,49 +614,6 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
   var nav=document.getElementById('nav'), mw=nav.querySelector('.menu-word');
   mw.addEventListener('click',function(){var o=nav.classList.toggle('open');mw.setAttribute('aria-expanded',o);mw.textContent=o?'Cerrar':'Menú';});
   nav.querySelectorAll('ul a').forEach(function(a){a.addEventListener('click',function(){nav.classList.remove('open');mw.setAttribute('aria-expanded','false');mw.textContent='Menú';});});
-
-  /* ---------- hero: the window opens to the edges ---------- */
-  var hero=document.querySelector('.hero'), pic=document.getElementById('heroPic'),
-      text=document.getElementById('heroText'), cap=document.getElementById('heroCap'),
-      peek=document.querySelector('.hero__monkey');
-  if(!reduce){
-    var g={}, live=false;
-    function clearHero(){ [pic,text,cap,peek].forEach(function(el){el.removeAttribute('style');}); hero.style.removeProperty('--wb'); }
-    function measure(){
-      var vw=innerWidth, vh=innerHeight, mob=false, w, h;
-      // phones get the calm stacked layout: no pinned scroll
-      var want=vw>=768 && vh>=520;
-      if(want!==live){ live=want; root.classList.toggle('hero-live',live); clearHero(); }
-      if(!live) return;
-      if(mob){ w=vw*.78; h=w*1.25; g.top=vh*.30; if(g.top+h>vh-150){h=vh-150-g.top;w=h/1.25;} }
-      else { w=vw*.36; h=w*1.25; var max=vh-240; if(h>max){h=max;w=h/1.25;} g.top=(vh-h)/2+20; }
-      g.w=w; g.h=h; g.side=(vw-w)/2; g.bot=vh-g.top-h; g.mob=mob; g.vh=vh; g.vw=vw;
-      g.mw=mob? Math.min(130,vw*.32) : Math.max(170,w*.46);
-      peek.style.width=g.mw+'px';
-      if(!mob) hero.style.setProperty('--wb',g.bot+'px');
-      draw();
-    }
-    function ease(t){return 1-Math.pow(1-t,3);}
-    function draw(){
-      if(!live) return;
-      var r=hero.getBoundingClientRect(), run=g.vh*.55;
-      var p=Math.min(1,Math.max(0,-r.top/run)), e=ease(p), k=1-e;
-      var rad=28*k;
-      pic.style.clipPath='inset('+(g.top*k).toFixed(1)+'px '+(g.side*k).toFixed(1)+'px '+(g.bot*k).toFixed(1)+'px '+(g.side*k).toFixed(1)+'px round '+rad.toFixed(1)+'px)';
-      var to=Math.max(0,1-p*2.6); text.style.opacity=to; text.style.visibility=to<.02?'hidden':'visible';
-      text.style.transform='translateY('+(-p*80).toFixed(1)+'px)';
-      var after=Math.min(1,Math.max(0,(-r.top-run)/(g.vh*.04)));
-      cap.style.opacity=after; cap.style.visibility=after<.02?'hidden':'visible'; cap.style.transform='translateY('+((1-after)*24).toFixed(1)+'px)';
-      // the monkey hides behind the window's right edge (phones: its top edge); the opening swallows it
-      var mh=g.mw*.98, x, y, rot;
-      if(g.mob){ x=g.vw/2-g.mw/2; y=g.top*k-mh*.62; rot=0; }
-      else { x=g.side*k+g.w+ (g.side*2*e) - g.mw*.42; y=g.top*k+g.h*.12; rot=14; }
-      peek.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) rotate('+rot+'deg)';
-    }
-    measure();
-    addEventListener('resize',measure);
-    addEventListener('scroll',function(){requestAnimationFrame(draw);},{passive:true});
-  }
 
   /* ---------- reveals ---------- */
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});
