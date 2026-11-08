@@ -162,7 +162,7 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
 .cur input:checked + label{background:var(--paper);color:var(--paper-ink)}
 .cur input:focus-visible + label{outline:3px solid var(--paper);outline-offset:2px}
 .tickets{display:grid;gap:56px;justify-items:center}
-.ticket{--g:var(--accent);position:relative;width:min(64vw,1100px);min-height:calc(min(64vw,1100px) / 2.3);display:grid;grid-template-columns:7fr 3fr;background:var(--paper);color:var(--paper-ink);transition:transform .35s var(--ease)}
+.ticket{--g:var(--accent);position:relative;width:min(64vw,1100px);min-height:calc(min(64vw,1100px) / 2.3);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,3fr);background:var(--paper);color:var(--paper-ink);transition:transform .35s var(--ease)}
 .ticket:hover{transform:rotate(-.6deg) translateY(-4px)}
 .ticket:nth-child(2):hover{transform:rotate(.6deg) translateY(-4px)}
 .ticket::before,.ticket::after{content:"";position:absolute;left:70%;width:28px;height:28px;border-radius:50%;background:var(--g);transform:translateX(-50%)}
@@ -175,9 +175,10 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
 .ticket ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px 32px;font-size:17px}
 .ticket li{padding-left:22px;position:relative}
 .ticket li::before{content:"";position:absolute;left:0;top:.5em;width:10px;height:10px;background:var(--accent)}
-.ticket__stub{padding:32px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
+.ticket__stub{min-width:0;padding:32px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
 .price{font-family:"Bricolage Grotesque","DM Sans",sans-serif;font-size:clamp(40px,5.2vw,86px);font-weight:900;letter-spacing:-.05em;line-height:.9;font-variant-numeric:tabular-nums;white-space:nowrap}
 .price--cop{font-size:clamp(28px,3vw,50px)}
+.price .from{display:block;font-family:"DM Sans",system-ui,sans-serif;font-size:var(--fs-s);font-weight:600;letter-spacing:0;line-height:1.2;margin-bottom:8px}
 .price small{display:block;font-size:var(--fs-s);font-weight:600;letter-spacing:0;margin-top:10px}
 .ticket__stub .btn{width:100%;margin-top:14px}
 .ticket--custom .ticket__main{gap:22px}
@@ -190,6 +191,8 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
 .chips input:checked + label::before{content:"−"}
 .chips input:focus-visible + label{outline:3px solid var(--accent);outline-offset:2px}
 .picked{font-size:var(--fs-s);min-height:1.5em}
+.rate{width:min(64vw,1100px);margin:40px auto 0;font-size:var(--fs-s)}
+.rate a{color:inherit}
 .ticket__stub .mk{width:92px;height:92px}
 
 /* ---------- PREGUNTAS: a band per question ---------- */
@@ -241,8 +244,11 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
 
 /* ---------- tablet & phone ---------- */
 @media (max-width:1024px){
-  .ticket,.prices__head{width:min(86vw,1100px)}
-  .ticket{min-height:calc(86vw / 2.3)}
+  .ticket,.prices__head,.rate{width:min(86vw,1100px)}
+  .ticket{min-height:calc(86vw / 2.3);grid-template-columns:minmax(0,65fr) minmax(0,35fr)}
+  .ticket::before,.ticket::after,.ticket__perf{left:65%}
+  .ticket__stub{padding:32px 20px}
+  .ticket__stub .btn{padding:0 16px}
   .show{--fw:min(42vw,calc((100svh - 330px) * .8))}
   .show__steps{display:none}
   .show__cap{left:calc(50% + var(--fw) / 2 + 28px);width:calc(50vw - var(--fw) / 2 - 28px - var(--m));font-size:16px}
@@ -277,7 +283,7 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
   .proj img{display:block;width:100%;height:auto;aspect-ratio:1440/1000;object-fit:cover;object-position:top;border-radius:16px;margin-top:14px}
   .proj .noimg{display:flex;align-items:flex-end;aspect-ratio:1440/1000;background:#123a5c;color:#fff;border-radius:16px;margin-top:14px;padding:20px;font-size:24px;font-weight:850}
   .prices{padding:120px var(--m) 140px}
-  .prices__head,.ticket{width:100%}
+  .prices__head,.ticket,.rate{width:100%}
   .ticket{grid-template-columns:1fr;min-height:0}
   .ticket::before,.ticket::after{left:auto;top:auto;bottom:auto;transform:translateY(-50%)}
   .ticket::before{left:-14px;top:var(--cut,70%)}
@@ -315,6 +321,50 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
   .js .rv{opacity:1;transform:none}
   .verb > img{transform:none}
 }
+/* ---------- chat: a tab that opens a small assistant ---------- */
+.chat-tab{position:fixed;right:24px;bottom:24px;z-index:60;display:flex;align-items:center;gap:12px;padding:0;background:none;border:0;color:var(--paper-ink);font:inherit;cursor:pointer;transition:transform .25s var(--ease),opacity .2s}
+.chat-tab__face{display:grid;place-items:center;width:68px;height:68px;border-radius:50%;background:var(--paper);box-shadow:0 0 0 3px var(--accent),0 10px 28px rgba(0,0,0,.4);transition:transform .2s var(--ease),background-color .18s}
+.chat-tab__face .mk{width:52px;height:52px}
+.chat-tab__label{position:relative;padding:10px 14px;background:var(--paper);font-weight:750;font-size:15px;line-height:1;box-shadow:0 8px 22px rgba(0,0,0,.3)}
+.chat-tab__label::after{content:"";position:absolute;right:-6px;top:50%;width:12px;height:12px;background:var(--paper);transform:translateY(-50%) rotate(45deg)}
+.chat-tab:hover .chat-tab__face{transform:scale(1.06);background:#fff}
+.chat-tab:active .chat-tab__face{transform:scale(.96)}
+.chat-tab:focus-visible{outline:none}
+.chat-tab:focus-visible .chat-tab__face{outline:3px solid var(--paper);outline-offset:3px}
+.chat-open .chat-tab{transform:translateY(12px);opacity:0;pointer-events:none}
+.chat{position:fixed;right:24px;bottom:24px;z-index:61;width:min(400px,calc(100vw - 48px));height:min(600px,calc(100svh - 120px));display:flex;flex-direction:column;background:var(--paper);color:var(--paper-ink);box-shadow:0 24px 60px rgba(0,0,0,.45);transform-origin:100% 100%;transition:transform .28s var(--ease),opacity .2s;font-size:16px}
+.chat[hidden]{display:flex;visibility:hidden;opacity:0;transform:translateY(16px) scale(.97);pointer-events:none}
+.chat__head{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 18px;background:var(--paper-ink);color:var(--paper)}
+.chat__head .mk{width:40px;height:40px;flex:none}
+.chat__head b{display:block;font-family:"Bricolage Grotesque","DM Sans",sans-serif;font-size:18px;line-height:1.1}
+.chat__head small{display:block;font-size:13px;color:#bdb8b2}
+.chat__close{margin-left:auto;width:44px;height:44px;flex:none;display:grid;place-items:center;background:none;border:0;color:inherit;cursor:pointer;font-size:26px;line-height:1}
+.chat__close:hover{background:#26262b}
+.chat__log{position:relative;flex:1;overflow-y:auto;overscroll-behavior:contain;padding:20px 16px 8px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:86%;padding:12px 14px;line-height:1.45;overflow-wrap:anywhere}
+.msg p+p,.msg p+ul,.msg ul+p{margin-top:8px}
+.msg ul{margin:0;padding-left:18px}
+.msg a{color:var(--accent);font-weight:700}
+.msg--bot{align-self:flex-start;background:var(--paper-soft)}
+.msg--me{align-self:flex-end;background:var(--paper-ink);color:var(--paper)}
+.msg--typing{display:flex;gap:5px;padding:16px 14px}
+.msg--typing i{width:7px;height:7px;border-radius:50%;background:#77736e;animation:dot 1s infinite}
+.msg--typing i:nth-child(2){animation-delay:.15s}.msg--typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,60%,100%{opacity:.3}30%{opacity:1}}
+.chat__quick{display:flex;flex-wrap:wrap;gap:8px;padding:8px 16px 12px}
+.chat__quick button{padding:9px 13px;background:#fff;border:2px solid var(--paper-soft);color:var(--paper-ink);font:inherit;font-size:14px;font-weight:650;cursor:pointer;transition:border-color .15s,background-color .15s}
+.chat__quick button:hover{border-color:var(--paper-ink)}
+.chat__form{display:flex;gap:8px;padding:12px;border-top:2px solid var(--paper-soft)}
+.chat__form input{flex:1;min-width:0;min-height:48px;padding:0 14px;border:2px solid var(--paper-soft);background:#fff;color:var(--paper-ink);font:inherit;font-size:16px}
+.chat__form input:focus{outline:none;border-color:var(--paper-ink)}
+.chat__form button{min-height:48px;padding:0 18px;font-size:15px}
+@media (max-width:767px){
+  .chat-tab{right:16px;bottom:16px}
+  .chat-tab__face{width:60px;height:60px}
+  .chat-tab__face .mk{width:46px;height:46px}
+  .chat{right:0;bottom:0;width:100vw;height:min(88svh,680px)}
+}
+@media (prefers-reduced-motion:reduce){.msg--typing i{animation:none;opacity:.6}}
 </style>
 </head>
 <body>
@@ -448,7 +498,7 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
         </ul>
       </div>
       <div class="ticket__stub">
-        <div class="price" data-usd="$50" data-eur="€45" data-cop="$158.000"><span class="pv">$50</span><small class="pc">USD · más hosting</small></div>
+        <div class="price" data-usd="$50" data-eur="€45" data-cop="$162.000"><span class="pv">$50</span><small class="pc">USD · más hosting</small></div>
         <a class="btn btn--ink" data-plan="Landing page" href="mailto:julian.dev1704@gmail.com">La quiero</a>
       </div>
     </article>
@@ -465,7 +515,7 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
         </ul>
       </div>
       <div class="ticket__stub">
-        <div class="price" data-usd="$100" data-eur="€89" data-cop="$315.000"><span class="pv">$100</span><small class="pc">USD · más hosting y correos</small></div>
+        <div class="price" data-usd="$100" data-eur="€90" data-cop="$324.000"><span class="pv">$100</span><small class="pc">USD · más hosting y correos</small></div>
         <a class="btn btn--ink" data-plan="Página web" href="mailto:julian.dev1704@gmail.com">La quiero</a>
       </div>
     </article>
@@ -489,11 +539,12 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
       </div>
       <div class="ticket__stub">
         <span data-monkey="pick" aria-hidden="true"></span>
-        <div class="price" data-usd="$50" data-eur="€45" data-cop="$158.000"><span class="pv">desde $50</span><small class="pc">USD · según lo que elijas</small></div>
+        <div class="price" data-usd="$50" data-eur="€45" data-cop="$162.000"><span class="from">Desde</span><span class="pv">$50</span><small class="pc">USD · según lo que elijas</small></div>
         <a class="btn btn--ink" id="customBtn" href="mailto:julian.dev1704@gmail.com">Cotizar mi lista</a>
       </div>
     </article>
   </div>
+  <p class="rate" id="rateNote">Precios en COP y EUR calculados con la tasa del dólar.</p>
 </section>
 
 <!-- PREGUNTAS -->
@@ -547,6 +598,23 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
     </div>
   </div>
 </footer>
+
+<!-- CHAT -->
+<button class="chat-tab" id="chatTab" type="button" aria-expanded="false" aria-controls="chat" aria-label="Pregúntame: abrir el chat"><span class="chat-tab__label" aria-hidden="true">Pregúntame</span><span class="chat-tab__face" data-monkey="chat" aria-hidden="true"></span></button>
+<section class="chat" id="chat" role="dialog" aria-label="Asistente de Julian.dev17" hidden>
+  <header class="chat__head">
+    <span data-monkey="chathead" aria-hidden="true"></span>
+    <div><b>Asistente Julian.dev17</b><small>Respuestas al instante sobre páginas web</small></div>
+    <button class="chat__close" id="chatClose" type="button" aria-label="Cerrar el chat">×</button>
+  </header>
+  <div class="chat__log" id="chatLog" aria-live="polite"></div>
+  <div class="chat__quick" id="chatQuick"></div>
+  <form class="chat__form" id="chatForm">
+    <label class="sr" for="chatInput">Escribe tu pregunta</label>
+    <input id="chatInput" type="text" autocomplete="off" placeholder="Escribe tu pregunta…" maxlength="300">
+    <button class="btn" type="submit">Enviar</button>
+  </form>
+</section>
 
 <script>
 (function(){
@@ -657,13 +725,16 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
     a.addEventListener('pointerenter',on); a.addEventListener('focus',on);
   });
 
+  /* ---------- tickets: on phones the perforation sits exactly where the stub starts ---------- */
+  var ro=new ResizeObserver(function(es){es.forEach(function(e){var t=e.target.closest('.ticket');t.style.setProperty('--cut',e.target.offsetHeight+'px');});});
+  document.querySelectorAll('.ticket__main').forEach(function(m){ro.observe(m);});
+
   /* ---------- prices: currency + the custom list ---------- */
   var cur='usd', NOTE={usd:'USD',eur:'EUR',cop:'COP'};
   function paint(){
     document.querySelectorAll('.price').forEach(function(p){
       var pv=p.querySelector('.pv'), pc=p.querySelector('.pc'), v=p.dataset[cur];
-      var custom=p.closest('.ticket--custom');
-      pv.textContent=(custom?'desde ':'')+v;
+      pv.textContent=v;
       pc.textContent=pc.textContent.replace(/^(USD|EUR|COP)/,NOTE[cur]);
       p.classList.toggle('price--cop',cur==='cop');
     });
@@ -674,6 +745,7 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
     list();
   }
   document.querySelectorAll('input[name=cur]').forEach(function(r){r.addEventListener('change',function(){cur=r.value;paint();});});
+
   var chips=[].slice.call(document.querySelectorAll('.chips input')), picked=document.getElementById('picked'), cbtn=document.getElementById('customBtn');
   var pickMonkey=document.querySelector('[data-monkey="pick"] svg');
   function list(){
@@ -685,6 +757,163 @@ html:not(.js) .show__cap{position:static;opacity:1;transform:none}
   }
   chips.forEach(function(c){c.addEventListener('change',function(){list(); if(pickMonkey&&c.checked) blink(pickMonkey);});});
   paint();
+
+  /* ---------- COP and EUR follow the day's dollar rate ---------- */
+  // USD is the base price; COP rounds to the nearest $1.000 and EUR to the whole euro.
+  // If the rate can't be fetched, the prices written in the HTML stay as they are.
+  var RATE_URL='https://open.er-api.com/v6/latest/USD', RATE_KEY='jd17-rates', rateNote=document.getElementById('rateNote');
+  function applyRates(d){
+    var cop=d.rates&&d.rates.COP, eur=d.rates&&d.rates.EUR;
+    if(!(cop>0&&eur>0)) return;
+    document.querySelectorAll('.price').forEach(function(p){
+      var usd=parseFloat(p.dataset.usd.replace(/[^0-9.]/g,''));
+      if(!usd) return;
+      p.dataset.cop='$'+(Math.round(usd*cop/1000)*1000).toLocaleString('es-CO');
+      p.dataset.eur='€'+Math.round(usd*eur);
+    });
+    var day=new Date(d.time_last_update_unix*1000).toLocaleDateString('es-CO',{day:'numeric',month:'long',year:'numeric'});
+    rateNote.innerHTML='Precios en COP y EUR calculados con la tasa del dólar del '+day+' (1 USD = $'+Math.round(cop).toLocaleString('es-CO')+' COP · €'+eur.toFixed(2).replace('.',',')+'). <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Tasas de ExchangeRate-API</a>.';
+    paint();
+  }
+  var cached=null;
+  try{ cached=JSON.parse(localStorage.getItem(RATE_KEY)); }catch(e){}
+  if(cached) applyRates(cached);
+  if(!cached || Date.now()/1000 > cached.time_next_update_unix){
+    fetch(RATE_URL).then(function(r){return r.json();}).then(function(d){
+      if(d.result!=='success') return;
+      var keep={rates:{COP:d.rates.COP,EUR:d.rates.EUR},time_last_update_unix:d.time_last_update_unix,time_next_update_unix:d.time_next_update_unix};
+      try{ localStorage.setItem(RATE_KEY,JSON.stringify(keep)); }catch(e){}
+      applyRates(keep);
+    }).catch(function(){});
+  }
+  /* ---------- chat: fixed answers, matched by keywords ---------- */
+  (function(){
+    var tab=document.getElementById('chatTab'), box=document.getElementById('chat'),
+        log=document.getElementById('chatLog'), quick=document.getElementById('chatQuick'),
+        form=document.getElementById('chatForm'), input=document.getElementById('chatInput'),
+        closeB=document.getElementById('chatClose'), started=false;
+    var IG='https://www.instagram.com/julian.dev17';
+    function norm(t){ return ' '+t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9ñ.$ ]+/g,' ').replace(/\s+/g,' ').trim()+' '; }
+    function price(i){ var p=document.querySelectorAll('.price')[i]; return p.dataset[cur]+' '+NOTE[cur]; }
+    var mail='<a href="mailto:'+MAIL+'">'+MAIL+'</a>', ig='<a href="'+IG+'" target="_blank" rel="noopener">@julian.dev17</a>';
+
+    var START=['Precios','¿Landing o página web?','Hosting y dominio','¿Cuánto se demora?','Hablar con Julian'];
+    var I=[
+      {k:['hola','buenas','buenos dias','buenas tardes','buenas noches','hey','que tal','saludos'],
+       a:function(){return '<p>¡Hola! Soy el asistente de Julian.dev17. Te puedo contar de precios, cómo trabajamos, hosting, dominios, correos y más. ¿Qué quieres saber?</p>';}, q:START},
+      {k:['precio','precios','cuanto cuesta','cuanto vale','cuanto cobras','cuanto sale','cuesta','costo','valor','tarifa','cobras','presupuesto','barato','caro','plata'],
+       a:function(){return '<p>Estos son los precios de hoy:</p><ul><li><b>Landing page:</b> '+price(0)+'</li><li><b>Página web:</b> '+price(1)+'</li><li><b>A tu medida:</b> desde '+price(2)+'</li></ul><p>El hosting, y en la página web los correos, se pagan aparte. <a href="#precios">Ver precios</a></p>';},
+       q:['¿Landing o página web?','¿Qué es el hosting?','Formas de pago']},
+      {k:['diferencia','cual me conviene','cual elijo','cual necesito','que me recomiendas','que necesito','landing o pagina','landing o web'],
+       a:function(){return '<p><b>Landing page</b> ('+price(0)+'): una sola página con una meta, que te escriban, reserven o compren. Ideal para empezar o para un producto o servicio puntual.</p><p><b>Página web</b> ('+price(1)+'): varias secciones (inicio, servicios, nosotros, contacto) para mostrar todo tu negocio.</p><p>Si no sabes cuál, cuéntame de tu negocio y te recomiendo una.</p>';},
+       q:['Precios','Hablar con Julian']},
+      {k:['landing'],
+       a:function(){return '<p>Una <b>landing page</b> es una sola página enfocada en que tus clientes hagan algo: escribirte, reservar o comprar. Incluye tus secciones, botón directo a WhatsApp, tus redes y tu ubicación, y está diseñada para celular.</p><p>Hoy cuesta <b>'+price(0)+'</b>, más hosting.</p>';},
+       q:['¿Landing o página web?','¿Qué es el hosting?']},
+      {k:['varias secciones','sitio completo','pagina completa','plan web','pagina web de 100','pagina corporativa','web corporativa'],
+       a:function(){return '<p>La <b>página web</b> tiene varias secciones: inicio, servicios, nosotros y contacto, con formulario y mapa, más extras según lo que necesites.</p><p>Hoy cuesta <b>'+price(1)+'</b>. El hosting y los correos corporativos se cobran aparte.</p>';},
+       q:['Correos corporativos','Precios']},
+      {k:['hosting','alojamiento','servidor','hospedaje'],
+       a:function(){return '<p>El <b>hosting</b> es el espacio donde vive tu página en internet. Es un servicio de un proveedor que se renueva (normalmente cada año), por eso va aparte.</p><p>Te ayudo a escoger uno según lo que necesites y lo dejo configurado.</p>';},
+       q:['¿Y el dominio?','Precios']},
+      {k:['dominio','punto com','.com','.co','url','direccion web','direccion de la pagina','nombre de la pagina'],
+       a:function(){return '<p>El <b>dominio</b> es la dirección de tu página, como <i>tunegocio.com</i>. Se compra a nombre tuyo y se renueva cada año; un .com suele costar entre 10 y 20 USD al año.</p><p>Si ya tienes uno, lo conecto. Si no, te ayudo a elegirlo y registrarlo.</p>';},
+       q:['¿Qué es el hosting?','Correos corporativos']},
+      {k:['correo corporativo','correos corporativos','correo empresarial','correo de empresa','correo con mi','correo con el nombre','email corporativo','correos con','google workspace','workspace','outlook'],
+       a:function(){return '<p>Un <b>correo corporativo</b> es un correo con el nombre de tu negocio, como <i>ventas@tunegocio.com</i>. Da más confianza que una dirección gratuita.</p><p>Lo configuro con tu dominio. El precio depende de cuántos correos necesites.</p>';},
+       q:['¿Y el dominio?','Precios']},
+      {k:['demora','tarda','tiempo','plazo','entrega','cuando estaria','cuando esta','cuantos dias','que tan rapido','rapido'],
+       a:function(){return '<p>Depende de lo que necesites. Antes de empezar te doy una <b>fecha de entrega concreta</b> para tu proyecto, así sabes exactamente cuándo queda lista.</p>';},
+       q:['¿Cómo trabajas?','Hablar con Julian']},
+      {k:['celular','movil','responsive','telefono','iphone','android','tablet'],
+       a:function(){return '<p>Sí. Diseño cada página <b>primero para el celular</b>, que es donde la abre la mayoría de tus clientes, y luego para computador.</p>';},
+       q:['¿Cómo trabajas?','Precios']},
+      {k:['proceso','como trabajas','como funciona','pasos','como empiezo','como empezamos','comenzar','como es el proceso'],
+       a:function(){return '<p>Son cuatro pasos:</p><ul><li><b>Hablamos:</b> me cuentas de tu negocio y qué quieres lograr.</li><li><b>Diseño:</b> con tus colores y tu logo, y lo revisamos juntos.</li><li><b>Programo:</b> rápida y pensada para celular.</li><li><b>Publico:</b> en tu dominio, con hosting y correos si los necesitas.</li></ul>';},
+       q:['¿Cuánto se demora?','Hablar con Julian']},
+      {k:['pago','pagar','transferencia','nequi','daviplata','paypal','tarjeta','moneda','dolares','euros','pesos','anticipo','abono','cuotas'],
+       a:function(){return '<p>Los precios están en pesos, dólares y euros; los pesos y euros se calculan con la tasa del dólar del día.</p><p>El medio de pago lo acordamos por correo: '+mail+'</p>';},
+       q:['Precios','Hablar con Julian']},
+      {k:['google','seo','buscador','posicionamiento','aparecer','que me encuentren','busquedas'],
+       a:function(){return '<p>Dejo tu página lista para Google: títulos y descripciones correctos, que cargue rápido y que se vea bien en celular. Eso ayuda a que te encuentren.</p><p>Aparecer de primeras toma tiempo y depende de tu sector y tu competencia, así que nadie te lo puede garantizar desde el primer día.</p>';},
+       q:['Precios','Hablar con Julian']},
+      {k:['whatsapp','wasap','boton'],
+       a:function(){return '<p>Sí. Todas las landing incluyen un <b>botón directo a tu WhatsApp</b>, para que tus clientes te escriban con un toque.</p>';},
+       q:['Precios','¿Landing o página web?']},
+      {k:['tienda','ecommerce','e commerce','vender en linea','vender por internet','carrito','pasarela','catalogo','productos'],
+       a:function(){return '<p>Sí hago <b>tiendas en línea</b>. Entran en el plan <b>A tu medida</b> (desde '+price(2)+'), porque el precio depende de cuántos productos tengas y cómo quieras cobrar.</p><p>Marca "Tienda en línea" en <a href="#precios">A tu medida</a> o escríbeme a '+mail+'.</p>';},
+       q:['Hablar con Julian','Precios']},
+      {k:['reserva','reservas','citas','agenda','agendar'],
+       a:function(){return '<p>Sí, puedo agregar <b>reservas o citas</b> a tu página. Se cotiza en el plan <a href="#precios">A tu medida</a>, desde '+price(2)+'.</p>';},
+       q:['Precios','Hablar con Julian']},
+      {k:['cambio','cambios','modificar','actualizar','mantenimiento','editar','soporte','despues de entregada','despues de publicada'],
+       a:function(){return '<p>Antes de programar revisamos juntos el diseño para que quede como quieres. Si después de publicada necesitas cambios o mantenimiento, escríbeme y lo acordamos según lo que sea: '+mail+'</p>';},
+       q:['Hablar con Julian']},
+      {k:['proyecto','proyectos','ejemplo','ejemplos','portafolio','trabajos','has hecho','clientes','referencias'],
+       a:function(){return '<p>Puedes ver sitios que he desarrollado, como <b>Valterra Advisory</b> y <b>GES Global</b>, y proyectos en los que trabajé, en la sección <a href="#proyectos">Proyectos</a>.</p>';},
+       q:['Precios','Hablar con Julian']},
+      {k:['https','ssl','candado','seguro','segura','certificado','seguridad'],
+       a:function(){return '<p>Sí, tu página queda con <b>HTTPS</b> (el candado en el navegador), que la hace segura y genera más confianza. Lo dejo configurado con el hosting.</p>';},
+       q:['¿Qué es el hosting?']},
+      {k:['por que','para que sirve','vale la pena','necesito una pagina','redes sociales','solo instagram','solo facebook','no tengo pagina'],
+       a:function(){return '<p>Las redes son muy buenas para mostrarte, pero tu página es <b>tuya</b>: aparece en Google, da confianza y reúne en un solo lugar lo que tus clientes buscan (horario, ubicación, precios y un botón para escribirte).</p>';},
+       q:['¿Landing o página web?','Precios']},
+      {k:['donde estas','donde queda','bogota','ciudad','otro pais','presencial','exterior','fuera de colombia'],
+       a:function(){return '<p>Estoy en <b>Bogotá</b>, pero trabajo con negocios de cualquier ciudad o país: todo se hace en línea y los precios están en pesos, dólares y euros.</p>';},
+       q:['Formas de pago','Hablar con Julian']},
+      {k:['quien eres','eres un bot','eres humano','eres una persona','robot','quien es julian','julian'],
+       a:function(){return '<p>Soy un asistente con respuestas rápidas sobre los servicios de <b>Julian.dev17</b>. Para hablar con Julian directamente, escríbele a '+mail+' o por Instagram a '+ig+'.</p>';},
+       q:['Hablar con Julian']},
+      {k:['contacto','contactar','hablar con julian','hablar contigo','cotizar','cotizacion','me interesa','quiero una','quiero mi','escribirte','correo','instagram','whats de julian','numero'],
+       a:function(){return '<p>¡Hablemos! Escríbeme qué necesitas y te respondo con una propuesta y un precio, sin compromiso:</p><ul><li>Correo: '+mail+'</li><li>Instagram: '+ig+'</li></ul>';},
+       q:['Precios']},
+      {k:['gracias','listo','perfecto','chao','adios','hasta luego','genial','super','vale'],
+       a:function(){return '<p>¡Con gusto! Si te surge otra duda, aquí estoy. Y cuando quieras empezar, escríbeme a '+mail+'.</p>';}, q:START}
+    ];
+    // chip labels that should land on a specific answer
+    var ALIAS={'Precios':'precios','¿Landing o página web?':'diferencia','Hosting y dominio':'hosting','¿Cuánto se demora?':'demora','Hablar con Julian':'hablar con julian','¿Qué es el hosting?':'hosting','¿Y el dominio?':'dominio','Correos corporativos':'correo corporativo','Formas de pago':'pago','¿Cómo trabajas?':'como trabajas'};
+
+    function answer(text){
+      var t=norm(ALIAS[text]||text), best=null, top=0;
+      I.forEach(function(it){
+        var s=0; it.k.forEach(function(k){ if(t.indexOf(k)>-1) s+=k.split(' ').length; });
+        if(s>top){top=s;best=it;}
+      });
+      if(best) return {a:best.a(), q:best.q};
+      return {a:'<p>No estoy seguro de haber entendido. Puedo ayudarte con precios, tiempos, hosting, dominios, correos y cómo trabajamos.</p><p>Si es algo más específico, escríbele a Julian a '+mail+'.</p>', q:START};
+    }
+    function add(html,who){
+      var m=document.createElement('div'); m.className='msg msg--'+who;
+      if(who==='me') m.textContent=html; else m.innerHTML=html;
+      log.appendChild(m); log.scrollTop=log.scrollHeight; return m;
+    }
+    function chips(list){
+      quick.innerHTML='';
+      (list||[]).forEach(function(l){ var b=document.createElement('button'); b.type='button'; b.textContent=l; b.addEventListener('click',function(){ask(l);}); quick.appendChild(b); });
+    }
+    // keep the start of the newest answer in view, so long answers are read from the top
+    var last=null;
+    function show(m){ if(m) last=m; if(!last) return; log.scrollTop=Math.min(log.scrollHeight, Math.max(0,last.offsetTop-12)); }
+    function reply(r){
+      if(reduce){ chips(r.q); show(add(r.a,'bot')); return; }
+      var t=add('<i></i><i></i><i></i>','bot'); t.classList.add('msg--typing'); chips([]);
+      setTimeout(function(){ t.remove(); show(add(r.a,'bot')); chips(r.q); show(last); },550);
+    }
+    function ask(text){ text=text.trim(); if(!text) return; add(text,'me'); reply(answer(text)); }
+
+    function open(){
+      box.hidden=false; root.classList.add('chat-open'); tab.setAttribute('aria-expanded','true');
+      if(!started){ started=true; reply({a:'<p>¡Hola! 👋 Soy el asistente de <b>Julian.dev17</b>. Pregúntame lo que quieras sobre tu futura página web, o elige una opción.</p>', q:START}); }
+      setTimeout(function(){ input.focus({preventScroll:true}); },60);
+    }
+    function close(){ box.hidden=true; root.classList.remove('chat-open'); tab.setAttribute('aria-expanded','false'); tab.focus({preventScroll:true}); }
+    tab.addEventListener('click',open);
+    closeB.addEventListener('click',close);
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !box.hidden) close(); });
+    form.addEventListener('submit',function(e){ e.preventDefault(); var v=input.value; input.value=''; ask(v); });
+    // links to sections close the chat so the page can scroll there
+    log.addEventListener('click',function(e){ var a=e.target.closest('a[href^="#"]'); if(a) close(); });
+  })();
 })();
 </script>
 </body>
